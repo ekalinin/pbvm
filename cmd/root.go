@@ -33,11 +33,15 @@ import (
 
 var cfgFile string
 
+// Verbose indicates the need of verbose mode in all commands
+var Verbose bool
+
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "pbvm",
-	Short: "Protocol Buffers Version Manager",
-	Long:  `pbvm is a CLI tool for easy install/switch any versions of the Protocol Buffers.`,
+	Use:     "pbvm",
+	Short:   "Protocol Buffers Version Manager",
+	Long:    `pbvm is a CLI tool for easy install/switch any versions of the Protocol Buffers.`,
+	Version: "0.0.1",
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
@@ -57,6 +61,7 @@ func init() {
 	// will be global for your application.
 
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.pbvm.yaml)")
+	rootCmd.PersistentFlags().BoolVarP(&Verbose, "verbose", "v", false, "verbose output")
 }
 
 // initConfig reads in config file and ENV variables if set.
