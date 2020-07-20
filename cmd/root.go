@@ -38,9 +38,9 @@ var Verbose bool
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:     "pbvm",
+	Use:     pbName,
 	Short:   "Protocol Buffers Version Manager",
-	Long:    `pbvm is a CLI tool for easy install/switch any versions of the Protocol Buffers.`,
+	Long:    `It is a CLI tool for easy install/switch any versions of the Protocol Buffers.`,
 	Version: "0.0.1",
 }
 
@@ -60,7 +60,7 @@ func init() {
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
 
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.pbvm.yaml)")
+	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/."+pbName+".yaml)")
 	rootCmd.PersistentFlags().BoolVarP(&Verbose, "verbose", "v", false, "verbose output")
 }
 
@@ -79,7 +79,7 @@ func initConfig() {
 
 		// Search config in home directory with name ".pbvm" (without extension).
 		viper.AddConfigPath(home)
-		viper.SetConfigName(".pbvm")
+		viper.SetConfigName("." + pbName)
 	}
 
 	viper.AutomaticEnv() // read in environment variables that match
