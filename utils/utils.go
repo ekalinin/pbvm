@@ -240,3 +240,15 @@ func ActivateVersion(app, version string) error {
 	}
 	return nil
 }
+
+// FilterAsset finds an asset which is need to be downloaded
+func FilterAsset(release *github.RepositoryRelease) *github.ReleaseAsset {
+	arch := GetArch()
+	for _, a := range release.Assets {
+		if !IsSuitableAsset(*a.Name, arch, runtime.GOOS) {
+			continue
+		}
+		return a
+	}
+	return nil
+}

@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"context"
-	"runtime"
 
 	"github.com/ekalinin/pbvm/utils"
 	"github.com/google/go-github/v32/github"
@@ -32,31 +31,21 @@ To get all available versions use "list-remote" command.`,
 		if err != nil {
 			panic(err)
 		}
-		d(" ... found: ", release.URL)
+		d(" ... found:", *release.HTMLURL)
 
-		d("Searching asset: ...")
-		arch := utils.GetArch()
-		var asset *github.ReleaseAsset
-		for _, a := range release.Assets {
-			if !utils.IsSuitableAsset(*a.Name, arch, runtime.GOOS) {
-				d(" ... skip:", *a.Name)
-				continue
-			}
-			d(" ... found:", *a.BrowserDownloadURL)
-			asset = a
-			break
-		}
-
+		d("Searching asset in release: ...")
+		asset := utils.FilterAsset(release)
 		if asset == nil {
 			panic("Could not found asset.")
 		}
+		d(" ... found:", *asset.BrowserDownloadURL)
 
 		d("Downloading version: ", tag, " ...")
 		downloaded, err := utils.DownloadVersion(pbName, tag, asset)
 		if err != nil {
 			panic(err)
 		}
-		d(" ... is realy downloaded: ", downloaded)
+		d(" ... is realy downloaded:", downloaded)
 
 		d("Activating version: ", tag, " ...")
 		if err := utils.ActivateVersion(pbName, tag); err != nil {
