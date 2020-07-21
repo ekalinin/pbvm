@@ -331,3 +331,17 @@ func FilterAsset(release *github.RepositoryRelease) *github.ReleaseAsset {
 	}
 	return nil
 }
+
+// DeleteVersion deletes version
+func DeleteVersion(app, version string) error {
+	versionDir, err := GetHomeVersionDir(app, version)
+	if err != nil {
+		return err
+	}
+
+	if err := os.RemoveAll(versionDir); err != nil {
+		return err
+	}
+
+	return nil
+}
