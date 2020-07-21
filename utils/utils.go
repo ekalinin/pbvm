@@ -313,24 +313,32 @@ func ActivateVersion(app, version string) error {
 
 // IsActiveVersion returns bool if version is active
 func IsActiveVersion(app, version string) (bool, error) {
-	activeDir, err := GetHomeActiveDir(app)
+	activeVer, err := GetActiveVersion(app)
 	if err != nil {
 		return false, err
 	}
 
-	l, err := os.Readlink(path.Join(activeDir, "bin"))
-	if err != nil {
-		return false, err
-	}
-
-	// converting
-	// "/home/user/.pbvm/versions/v3.12.3/bin" -> "v3.12.3"
-	activeVer := path.Base(path.Dir(l))
 	if activeVer == version {
 		return true, nil
 	}
 
 	return false, nil
+}
+
+// GetActiveVersion returns active version
+func GetActiveVersion(app string) (string, error) {
+	activeDir, err := GetHomeActiveDir(app)
+	if err != nil {
+		return "", err
+	}
+
+	l, err := os.Readlink(path.Join(activeDir, "bin"))
+	if err != nil {
+		return "", err
+	}
+	// converting
+	// "/home/user/.pbvm/versions/v3.12.3/bin" -> "v3.12.3"
+	return path.Base(path.Dir(l)), nil
 }
 
 // FilterAsset finds an asset which is need to be downloaded
