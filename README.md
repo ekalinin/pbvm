@@ -78,3 +78,11 @@ libprotoc 4.0.0
 $ protoc --version
 libprotoc 3.12.3
 ```
+
+Auto completion
+---------------
+
+```sh
+# see instructions below
+$ pbvm completion -h
+```
