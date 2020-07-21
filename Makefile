@@ -1,7 +1,8 @@
 VERSION=
 
 release: check-version check-master
-	git tag v${VERSION}
+	git tag v${VERSION} && \
+	git push origin v${VERSION}
 
 clear-dist:
 	rm -rf ./dist
