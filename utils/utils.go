@@ -189,12 +189,12 @@ func DownloadVersion(app, version string, asset *github.ReleaseAsset) (bool, err
 		return false, err
 	}
 
-	versionDir, err := GetHomeVersionDir(app, version)
+	installed, versionDir, err := IsInstalledVersion(app, version)
 	if err != nil {
 		return false, err
 	}
 
-	if _, err := os.Stat(versionDir); os.IsNotExist(err) {
+	if !installed {
 		tmp, err := GetHomeTmpDir(app)
 		if err != nil {
 			return false, err
@@ -212,6 +212,20 @@ func DownloadVersion(app, version string, asset *github.ReleaseAsset) (bool, err
 	}
 
 	return false, nil
+}
+
+// IsInstalledVersion returns true (first result) if version is installed
+func IsInstalledVersion(app, version string) (bool, string, error) {
+	versionDir, err := GetHomeVersionDir(app, version)
+	if err != nil {
+		return false, versionDir, err
+	}
+
+	if _, err := os.Stat(versionDir); os.IsNotExist(err) {
+		return false, versionDir, nil
+	}
+
+	return true, versionDir, nil
 }
 
 // ActivateVersion activates certain version
