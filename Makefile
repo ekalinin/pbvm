@@ -1,0 +1,16 @@
+VERSION=
+
+check-version:
+ifndef VERSION
+$(error VERSION is not set)
+endif
+
+check-master:
+ifneq ($(shell git rev-parse --abbrev-ref HEAD),master)
+$(error Not on branch master)
+endif
+
+release: check-version check-master
+	git tag v${VERSION} && \
+	git push origin v${VERSION}
+
