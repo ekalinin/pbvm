@@ -7,8 +7,11 @@ const (
 	pbDateFormat = "2006.01.02"
 )
 
-// Version will be set by goreleaser (see .goreleaser.yml)
+// pbVersion will be set by goreleaser (see .goreleaser.yml)
 var pbVersion = "dev"
 
-// Commit will be set by goreleaser (see .goreleaser.yml)
+// pbCommit will be set by goreleaser (see .goreleaser.yml)
 var pbCommit = "unknown"
+
+// pbBuildDt will be set by goreleaser (see .goreleaser.yml)
+var pbBuildDt = "now"

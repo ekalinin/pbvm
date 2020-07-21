@@ -9,7 +9,7 @@ builds:
     - darwin
     - windows
   ldflags:
-    - -s -w -X cmd.pbVersion={{.Version}} -X cmd.pbCommit={{.Commit}}
+    - -s -w -X github.com/ekalinin/pbvm/cmd.pbVersion={{.Version}} -X github.com/ekalinin/pbvm/cmd.pbCommit={{.ShortCommit}} -X github.com/ekalinin/pbvm/cmd.pbBuildDt={{.Date}}
 archives:
 - replacements:
     386: x86_32
