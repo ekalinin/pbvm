@@ -39,7 +39,7 @@ var listRemoteCmd = &cobra.Command{
 			table.Append([]string{
 				*r.TagName,
 				strconv.FormatBool(*r.Prerelease),
-				(*r.PublishedAt).Format("2006.01.02"),
+				(*r.PublishedAt).Format(pbDateFormat),
 				strconv.FormatBool(installed),
 			})
 		}
