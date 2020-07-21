@@ -8,7 +8,7 @@ const (
 )
 
 // Version will be set by goreleaser (see .goreleaser.yml)
-var pbVersion string
+var pbVersion = "dev"
 
 // Commit will be set by goreleaser (see .goreleaser.yml)
-var pbCommit string
+var pbCommit = "unknown"
