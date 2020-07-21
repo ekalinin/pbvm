@@ -4,12 +4,14 @@ import (
 	"archive/zip"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"net/http"
 	"os"
 	"path"
 	"path/filepath"
 	"runtime"
 	"strings"
+	"time"
 
 	"github.com/google/go-github/v32/github"
 )
@@ -228,6 +230,44 @@ func IsInstalledVersion(app, version string) (bool, string, error) {
 	return true, versionDir, nil
 }
 
+// InstalledVersion describes installed version
+type InstalledVersion struct {
+	Version string
+	Date    time.Time
+	Active  bool
+}
+
+// ListInstalledVersions returns a slice of installed versions
+func ListInstalledVersions(app string) ([]InstalledVersion, error) {
+	versionsDir, err := GetHomeVersionsDir(app)
+	if err != nil {
+		return nil, err
+	}
+
+	files, err := ioutil.ReadDir(versionsDir)
+	if err != nil {
+		return nil, err
+	}
+
+	res := []InstalledVersion{}
+	for _, f := range files {
+		if !f.IsDir() {
+			continue
+		}
+		active, err := IsActiveVersion(app, f.Name())
+		if err != nil {
+			return nil, err
+		}
+		res = append(res, InstalledVersion{
+			Version: f.Name(),
+			Date:    f.ModTime(),
+			Active:  active,
+		})
+	}
+
+	return res, nil
+}
+
 // ActivateVersion activates certain version
 func ActivateVersion(app, version string) error {
 
@@ -253,6 +293,28 @@ func ActivateVersion(app, version string) error {
 		}
 	}
 	return nil
+}
+
+// IsActiveVersion returns bool if version is active
+func IsActiveVersion(app, version string) (bool, error) {
+	activeDir, err := GetHomeActiveDir(app)
+	if err != nil {
+		return false, err
+	}
+
+	l, err := os.Readlink(path.Join(activeDir, "bin"))
+	if err != nil {
+		return false, err
+	}
+
+	// converting
+	// "/home/user/.pbvm/versions/v3.12.3/bin" -> "v3.12.3"
+	activeVer := path.Base(path.Dir(l))
+	if activeVer == version {
+		return true, nil
+	}
+
+	return false, nil
 }
 
 // FilterAsset finds an asset which is need to be downloaded
