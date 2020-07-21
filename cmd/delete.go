@@ -22,6 +22,7 @@ var deleteCmd = &cobra.Command{
 		}
 		if !installed {
 			// suppress help output
+			// https://github.com/spf13/cobra/issues/340
 			cmd.SilenceUsage = true
 			cmd.SilenceErrors = true
 			return errors.New("Version " + version + " is not installed")

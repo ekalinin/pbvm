@@ -10,7 +10,7 @@ import (
 // activateCmd represents the activate command
 var activateCmd = &cobra.Command{
 	Use:   "activate <version>",
-	Short: "Activate version. Version should be installed.",
+	Short: "Activate version",
 	Long:  `Activate version. Version should be installed.`,
 	Args:  cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
