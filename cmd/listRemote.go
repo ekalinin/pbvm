@@ -15,9 +15,10 @@ var numberOfVersions int
 
 // listRemoteCmd represents the listRemote command
 var listRemoteCmd = &cobra.Command{
-	Use:   "list-remote",
-	Short: "List available versions",
-	Long:  `List available versions`,
+	Aliases: []string{"lsr"},
+	Use:     "list-remote",
+	Short:   "List available versions",
+	Long:    `List available versions`,
 	Run: func(cmd *cobra.Command, args []string) {
 		ctx := context.Background()
 

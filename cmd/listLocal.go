@@ -11,9 +11,10 @@ import (
 
 // listLocalCmd represents the listLocal command
 var listLocalCmd = &cobra.Command{
-	Use:   "list-local",
-	Short: "List local (previously installed) versions",
-	Long:  `Shows list of installed versions.`,
+	Aliases: []string{"ls"},
+	Use:     "list-local",
+	Short:   "List local (previously installed) versions",
+	Long:    `Shows list of installed versions.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		// version, install date (folder stat), active?
 		versions, err := utils.ListInstalledVersions(pbName)
