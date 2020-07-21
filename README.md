@@ -54,6 +54,18 @@ $ protoc --version
 libprotoc 3.12.3
 ```
 
+List local versions
+-------------------
+
+```sh
+$ pbvm ls                                         
+   VERSION   | INSTALL DATE | ACTIVE  
+-------------+--------------+---------
+  v4.0.0-rc1 | 2020.07.20   | false   
+  v3.12.3    | 2020.07.20   | true    
+  v3.12.0    | 2020.07.21   | false 
+```
+
 Run with a version
 ------------------
 
