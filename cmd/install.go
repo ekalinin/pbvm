@@ -57,7 +57,7 @@ To get all available versions use "list-remote" command.`,
 		d(" ... found:", *asset.BrowserDownloadURL)
 
 		d("Downloading version: ", tag, " ...")
-		downloaded, err := utils.DownloadVersion(pbName, tag, asset)
+		downloaded, err := utils.DownloadVersion(pbName, tag, asset, d)
 		if err != nil {
 			panic(err)
 		}

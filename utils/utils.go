@@ -187,31 +187,44 @@ func Unzip(src string, dest string) ([]string, error) {
 
 // DownloadVersion download a version if needed. Returns (false, nil) if version
 // is already downloaded
-func DownloadVersion(app, version string, asset *github.ReleaseAsset) (bool, error) {
+func DownloadVersion(app, version string, asset *github.ReleaseAsset, d func(ms ...interface{})) (bool, error) {
+	d(" ... preparing home ...")
 	if err := PrepareHomeDir(app); err != nil {
 		return false, err
 	}
 
+	d(" ... checking if installed ...")
 	installed, versionDir, err := IsInstalledVersion(app, version)
 	if err != nil {
 		return false, err
 	}
 
 	if !installed {
+		d(" ... not installed :(")
 		tmp, err := GetHomeTmpDir(app)
 		if err != nil {
 			return false, err
 		}
 		zipLocal := path.Join(tmp, *asset.Name)
-		if err := DownloadFile(*asset.BrowserDownloadURL, zipLocal); err != nil {
-			return false, err
+		d(" ... checking if zip already downloaded ...")
+		if _, err := os.Stat(zipLocal); os.IsNotExist(err) {
+			d(" ... zip was not downloaded yet :( downloading ")
+			if err := DownloadFile(*asset.BrowserDownloadURL, zipLocal); err != nil {
+				return false, err
+			}
+		} else {
+			d(" ... zip was downloaded already :) ")
 		}
 
+		d(" ... unzipping ... ")
 		if _, err = Unzip(zipLocal, versionDir); err != nil {
 			return false, err
 		}
 
+		d(" ... done. ")
 		return true, nil
+	} else {
+		d(" ... installed :)")
 	}
 
 	return false, nil
