@@ -8,11 +8,10 @@ Install
 
 ```sh
 # download & unpack
-$ wget https://github.com/ekalinin/pbvm/releases/download/0.0.1/pbvm.linux.amd64.tgz
-$ tar xzvf pbvm.linux.amd64.tgz
+$ wget https://github.com/ekalinin/pbvm/releases/download/v0.0.1/pbvm_0.0.1_linux_x86_64.tar.gz
+$ tar pbvm_0.0.1_linux_x86_64.tar.gz
 
 # install
-$ chmod +x pbvm
 $ sudo cp pbvm /usr/bin
 
 # activate
