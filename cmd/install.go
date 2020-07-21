@@ -8,6 +8,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var forceInstall bool
+
 // installCmd represents the install command
 var installCmd = &cobra.Command{
 	Use:   "install <version>",
@@ -21,10 +23,24 @@ installed and enabled.
 To get all available versions use "list-remote" command.`,
 	Args: cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		ctx := context.Background()
-
-		client := github.NewClient(nil)
 		tag := args[0]
+		d("Installing version:", tag, " ...")
+		installed, _, err := utils.IsInstalledVersion(pbName, tag)
+		if err != nil {
+			panic(err)
+		}
+
+		d("Is installed:", installed, ", is forced:", forceInstall)
+		if installed && !forceInstall {
+			d("Already installed. Just activate it.")
+			if err := utils.ActivateVersion(pbName, tag); err != nil {
+				panic(err)
+			}
+			return
+		}
+
+		ctx := context.Background()
+		client := github.NewClient(nil)
 
 		d("Searching release: ", tag, " ...")
 		release, _, err := client.Repositories.GetReleaseByTag(ctx, pbOwner, pbRepo, tag)
@@ -58,4 +74,7 @@ To get all available versions use "list-remote" command.`,
 
 func init() {
 	rootCmd.AddCommand(installCmd)
+
+	installCmd.Flags().BoolVarP(&forceInstall, "force", "f", false,
+		"Force installation (reinstall)")
 }
