@@ -10,6 +10,7 @@ import (
 	"path"
 	"path/filepath"
 	"runtime"
+	"sort"
 	"strings"
 	"time"
 
@@ -249,6 +250,8 @@ func ListInstalledVersions(app string) ([]InstalledVersion, error) {
 		return nil, err
 	}
 
+	// Desc order by name
+	sort.Slice(files, func(i, j int) bool { return files[i].Name() > files[j].Name() })
 	res := []InstalledVersion{}
 	for _, f := range files {
 		if !f.IsDir() {
