@@ -22,6 +22,10 @@ var listLocalCmd = &cobra.Command{
 			panic(err)
 		}
 
+		if len(versions) == 0 {
+			return
+		}
+
 		table := tablewriter.NewWriter(os.Stdout)
 		table.SetHeader([]string{"Version", "Install date", "Active"})
 

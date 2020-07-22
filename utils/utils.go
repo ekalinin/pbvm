@@ -258,6 +258,10 @@ func ListInstalledVersions(app string) ([]InstalledVersion, error) {
 		return nil, err
 	}
 
+	if _, err := os.Stat(versionsDir); os.IsNotExist(err) {
+		return nil, nil
+	}
+
 	files, err := ioutil.ReadDir(versionsDir)
 	if err != nil {
 		return nil, err
