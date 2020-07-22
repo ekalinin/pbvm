@@ -21,7 +21,7 @@ var rootCmd = &cobra.Command{
 	Use:     pbName,
 	Short:   "Protocol Buffers Version Manager",
 	Long:    `It is a CLI tool for easy install/switch any versions of the Protocol Buffers.`,
-	Version: pbVersion + " (commit=" + pbCommit + ", date=" + pbBuildDt + ")",
+	Version: pbVersion + "\n\nCommit: " + pbCommit + "\nDate:   " + pbBuildDt,
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
