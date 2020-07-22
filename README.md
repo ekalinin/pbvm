@@ -6,10 +6,14 @@ pbvm - Protocol Buffers Version Manager.
 Install
 =======
 
+Check the latest release here:
+
+- https://github.com/ekalinin/pbvm/releases/latest
+
 ```sh
 # download & unpack
-$ wget https://github.com/ekalinin/pbvm/releases/download/v0.0.1/pbvm_0.0.1_linux_x86_64.tar.gz
-$ tar pbvm_0.0.1_linux_x86_64.tar.gz
+$ wget https://github.com/ekalinin/pbvm/releases/download/<version>/pbvm_<version>_linux_x86_64.tar.gz
+$ tar pbvm_<version>_linux_x86_64.tar.gz
 
 # install
 $ sudo cp pbvm /usr/bin
@@ -35,7 +39,7 @@ $ pbvm list-remote -n 5
   v3.12.0    | false       | 2020.05.15 | true 
 ```
 
-Install (switch) to version
+Install (switch to) version
 ----------------------------
 
 ```sh
